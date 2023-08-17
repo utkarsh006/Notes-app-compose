@@ -69,6 +69,8 @@ class NotesViewModel @Inject constructor(
                 _state.value =
                     state.value.copy(isOrderSectionVisible = !state.value.isOrderSectionVisible)
             }
+
+            else -> {}
         }
     }
 
