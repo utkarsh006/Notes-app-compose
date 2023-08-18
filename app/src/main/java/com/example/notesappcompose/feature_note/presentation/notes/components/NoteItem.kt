@@ -96,7 +96,8 @@ fun NoteItemUI(
         ) {
             Icon(
                 imageVector = Icons.Default.Delete,
-                contentDescription = "Delete Note"
+                contentDescription = "Delete Note",
+                tint = MaterialTheme.colorScheme.onSurface
             )
         }
 

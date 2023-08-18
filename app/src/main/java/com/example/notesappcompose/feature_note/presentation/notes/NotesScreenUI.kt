@@ -42,6 +42,7 @@ import com.example.notesappcompose.feature_note.presentation.notes.components.No
 import com.example.notesappcompose.feature_note.presentation.notes.components.NotesEvent
 import com.example.notesappcompose.feature_note.presentation.notes.components.NotesViewModel
 import com.example.notesappcompose.feature_note.presentation.notes.components.OrderSection
+import com.example.notesappcompose.feature_note.presentation.utils.NavScreen
 import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -59,7 +60,7 @@ fun NotesScreen(
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {
-
+                    navController.navigate(NavScreen.AddEditNoteScreen.route)
                 },
                 containerColor = MaterialTheme.colorScheme.primary
             ) {
@@ -113,7 +114,13 @@ fun NotesScreen(
                         note = note,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .clickable { },
+                            .clickable {
+                                //clicking on individual note
+                                navController.navigate(
+                                    NavScreen.AddEditNoteScreen.route
+                                            + "?noteId=${note.id}&noteColor=${note.color}"
+                                )
+                            },
                         onDeleteClicked = {
                             viewModel.onEvent(NotesEvent.DeleteNote(note))
                             //after deleting the note, show the snackbar
