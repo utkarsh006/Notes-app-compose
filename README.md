@@ -10,7 +10,7 @@ your ideas, tasks, and important information 😄
 ### Features 📱
 - Create and Edit Notes
 - Delete Notes
-- Search and Share the Notes
+- Share the Notes
 - Organize with Categories
 - Offline Access
 
