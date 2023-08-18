@@ -24,7 +24,7 @@ class NotesViewModel @Inject constructor(
     // order section visibility
 
     private val _state = mutableStateOf<NotesState>(NotesState())
-    private val state: State<NotesState> = _state
+    val state: State<NotesState> = _state
 
     private var recentDeletedNote: Note? = null
 
@@ -41,7 +41,8 @@ class NotesViewModel @Inject constructor(
         when (event) {
             is NotesEvent.Order -> {
                 //check whether the order is actually changed or not
-                if (state.value.noteOrder::class == event.noteOrder::class && state.value.noteOrder.orderType == event.noteOrder.orderType) {
+                if (state.value.noteOrder::class == event.noteOrder::class &&
+                    state.value.noteOrder.orderType == event.noteOrder.orderType) {
                     return
                 }
                 getNotes(event.noteOrder)
