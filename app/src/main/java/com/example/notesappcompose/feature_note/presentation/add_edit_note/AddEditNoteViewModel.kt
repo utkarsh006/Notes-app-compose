@@ -11,11 +11,13 @@ import com.example.notesappcompose.feature_note.domain.model.Note
 import com.example.notesappcompose.feature_note.domain.usecases.NoteUseCases
 import com.example.notesappcompose.feature_note.presentation.add_edit_note.AddEditNoteEvent
 import com.example.notesappcompose.feature_note.presentation.add_edit_note.NoteTextFieldState
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class AddEditNoteViewModel @Inject constructor(
     private val noteUseCases: NoteUseCases,
     savedStateHandle: SavedStateHandle //contains the nav arguments
