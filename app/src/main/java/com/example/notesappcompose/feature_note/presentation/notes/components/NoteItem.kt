@@ -22,6 +22,7 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.clipPath
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
@@ -69,12 +70,13 @@ fun NoteItemUI(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp, end = 32.dp)
+                .padding(16.dp)
         ) {
             Text(
                 text = note.title,
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.surface,
+                style = MaterialTheme.typography.bodyLarge,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.secondary,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
@@ -83,8 +85,8 @@ fun NoteItemUI(
 
             Text(
                 text = note.content,
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.surface,
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.background,
                 maxLines = 10,
                 overflow = TextOverflow.Ellipsis
             )
