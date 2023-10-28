@@ -43,7 +43,6 @@ import com.example.notesappcompose.feature_note.presentation.add_edit_note.compo
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddEditScreenUI(
     navController: NavController,

@@ -1,6 +1,5 @@
 package com.example.notesappcompose.feature_note.domain.model
 
-import androidx.compose.ui.graphics.Color.Companion.Red
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.notesappcompose.ui.theme.BabyBlue
