@@ -1,5 +1,7 @@
 package com.example.notesappcompose.feature_note.presentation.notes
 
+import android.content.Context
+import android.content.Intent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -45,6 +47,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun NotesScreen(
     navController: NavController,
+    context: Context,
     viewModel: NotesViewModel = hiltViewModel()
 ) {
     val state = viewModel.state.value
@@ -69,7 +72,9 @@ fun NotesScreen(
 
             ) {
                 Row(
-                    modifier = Modifier.fillMaxWidth().padding(16.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -103,7 +108,10 @@ fun NotesScreen(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                LazyVerticalStaggeredGrid(columns = StaggeredGridCells.Fixed(2), modifier = Modifier.fillMaxSize()) {
+                LazyVerticalStaggeredGrid(
+                    columns = StaggeredGridCells.Fixed(2),
+                    modifier = Modifier.fillMaxSize()
+                ) {
                     items(state.notes) { note ->
                         NoteItemUI(
                             note = note,
@@ -117,6 +125,16 @@ fun NotesScreen(
                                                 + "?noteId=${note.id}&noteColor=${note.color}"
                                     )
                                 },
+                            onShareClicked = {
+                                val sendIntent: Intent = Intent().apply {
+                                    action = Intent.ACTION_SEND
+                                    putExtra(Intent.EXTRA_TEXT, note.content)
+                                    type = "text/plain"
+                                }
+                                val shareIntent = Intent.createChooser(sendIntent, null)
+                                context.startActivity(shareIntent)
+
+                            },
                             onDeleteClicked = {
                                 viewModel.onEvent(NotesEvent.DeleteNote(note))
                                 //after deleting the note, show the snackbar

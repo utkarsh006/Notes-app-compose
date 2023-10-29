@@ -1,20 +1,23 @@
 package com.example.notesappcompose.feature_note.presentation.notes.components
 
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
@@ -36,7 +39,8 @@ fun NoteItemUI(
     modifier: Modifier = Modifier,
     cornerRadius: Dp = 10.dp,
     cutCornerSize: Dp = 30.dp,
-    onDeleteClicked: () -> Unit
+    onDeleteClicked: () -> Unit,
+    onShareClicked: (String) -> Unit
 ) {
     Box(modifier = modifier) {
         Canvas(modifier = Modifier.matchParentSize()) {
@@ -92,9 +96,27 @@ fun NoteItemUI(
             )
         }
 
+
+    }
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp),
+        horizontalArrangement = Arrangement.End
+    ) {
+        IconButton(
+            onClick = { onShareClicked(note.content) },
+        ) {
+            Icon(
+                imageVector = Icons.Default.Share,
+                contentDescription = "Delete Note",
+                tint = MaterialTheme.colorScheme.onSurface
+            )
+        }
+
         IconButton(
             onClick = onDeleteClicked,
-            modifier = Modifier.align(Alignment.BottomEnd)
         ) {
             Icon(
                 imageVector = Icons.Default.Delete,
@@ -102,11 +124,11 @@ fun NoteItemUI(
                 tint = MaterialTheme.colorScheme.onSurface
             )
         }
-
     }
+
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun NoteItemUIPreview() {
     NoteItemUI(
@@ -119,6 +141,7 @@ fun NoteItemUIPreview() {
         modifier = Modifier.padding(16.dp),
         cornerRadius = 8.dp,
         cutCornerSize = 20.dp,
-        onDeleteClicked = {}
+        onDeleteClicked = {},
+        onShareClicked = {}
     )
 }
