@@ -22,7 +22,3 @@ your ideas, tasks, and important information 😄
 - Dagger Hilt
 - RoomDB
 - Coroutines
-
-## Resources Used 
-
-- [SnackBar](https://developer.android.com/reference/kotlin/androidx/compose/material3/SnackbarHostState)
