@@ -9,6 +9,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusState
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
 fun HintUI(
@@ -17,7 +19,7 @@ fun HintUI(
     modifier: Modifier = Modifier,
     isHintVisible: Boolean = false,
     onValueChange: (String) -> Unit,
-    textStyle: androidx.compose.ui.text.TextStyle = androidx.compose.ui.text.TextStyle(),
+    textStyle: TextStyle,
     singleLine: Boolean = false,
     onFocusChange: (FocusState) -> Unit
 ) {
@@ -35,4 +37,15 @@ fun HintUI(
             Text(text = hint, style = textStyle, color = Color.DarkGray)
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun HintPreview() {
+    HintUI(
+        text = "Text",
+        hint = "Hint",
+        onValueChange = {},
+        textStyle = TextStyle(),
+        onFocusChange = {})
 }
