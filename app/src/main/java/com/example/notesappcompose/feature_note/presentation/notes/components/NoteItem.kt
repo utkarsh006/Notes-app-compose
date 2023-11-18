@@ -35,69 +35,70 @@ fun NoteItemUI(
     onShareClicked: (String) -> Unit
 ) {
     Card(modifier = modifier) {
-
         Box(
             modifier = Modifier
                 .fillMaxSize()
                 .background(Color(note.color))
         ) {
-            Column(
+            // Title and Content Section
+            Box(
                 modifier = Modifier
-
                     .fillMaxSize()
                     .padding(16.dp)
             ) {
-                Text(
-                    text = note.title,
-                    style = MaterialTheme.typography.bodyLarge,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.secondary,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
-                )
+                Column {
+                    Text(
+                        text = note.title,
+                        style = MaterialTheme.typography.bodyLarge,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.secondary,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
 
-                Spacer(modifier = Modifier.height(8.dp))
+                    Spacer(modifier = Modifier.height(8.dp))
 
-                Text(
-                    text = note.content,
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.background,
-                    maxLines = 10,
-                    overflow = TextOverflow.Ellipsis
-                )
+                    Text(
+                        text = note.content,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.background,
+                        maxLines = 10,
+                        overflow = TextOverflow.Ellipsis
+                    )
+
+                    // Share and Delete Icons
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 8.dp),
+                        horizontalArrangement = Arrangement.End
+                    ) {
+                        IconButton(
+                            onClick = { onShareClicked(note.content) },
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Share,
+                                contentDescription = "Share Note",
+                                tint = MaterialTheme.colorScheme.onSurface
+                            )
+                        }
+
+                        IconButton(
+                            onClick = onDeleteClicked,
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Delete,
+                                contentDescription = "Delete Note",
+                                tint = MaterialTheme.colorScheme.onSurface
+                            )
+                        }
+                    }
+                }
             }
         }
-
     }
-
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp),
-        horizontalArrangement = Arrangement.End
-    ) {
-        IconButton(
-            onClick = { onShareClicked(note.content) },
-        ) {
-            Icon(
-                imageVector = Icons.Default.Share,
-                contentDescription = "Delete Note",
-                tint = MaterialTheme.colorScheme.onSurface
-            )
-        }
-
-        IconButton(
-            onClick = onDeleteClicked,
-        ) {
-            Icon(
-                imageVector = Icons.Default.Delete,
-                contentDescription = "Delete Note",
-                tint = MaterialTheme.colorScheme.onSurface
-            )
-        }
-    }
-
 }
+
 
 @Preview(showBackground = true)
 @Composable

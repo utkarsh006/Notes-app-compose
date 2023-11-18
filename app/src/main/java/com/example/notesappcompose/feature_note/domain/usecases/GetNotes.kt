@@ -20,17 +20,18 @@ class GetNotes(
     ): Flow<List<Note>> {
         return repository.getNotes().map { notes ->
             //whatever the list we get from the repository, we map that to our newList
-            when(noteOrder.orderType){
+            when (noteOrder.orderType) {
                 is OrderType.Ascending -> {
-                    when(noteOrder){
+                    when (noteOrder) {
                         is NoteOrder.Title -> notes.sortedBy { it.title.lowercase() }
                         is NoteOrder.Date -> notes.sortedBy { it.timestamp }
                         is NoteOrder.Color -> notes.sortedBy { it.color }
 
                     }
                 }
+
                 is OrderType.Descending -> {
-                    when(noteOrder){
+                    when (noteOrder) {
                         is NoteOrder.Title -> notes.sortedByDescending { it.title.lowercase() }
                         is NoteOrder.Date -> notes.sortedByDescending { it.timestamp }
                         is NoteOrder.Color -> notes.sortedByDescending { it.color }
