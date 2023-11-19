@@ -5,6 +5,7 @@ sealed class NoteOrder(val orderType: OrderType) {
     class Date(orderType: OrderType) : NoteOrder(orderType)
     class Color(orderType: OrderType) : NoteOrder(orderType)
 
+    //This function would be accessible in UI
     fun copyNoteHelper(orderType: OrderType): NoteOrder {
         return when (this) {
             is Title -> Title(orderType)

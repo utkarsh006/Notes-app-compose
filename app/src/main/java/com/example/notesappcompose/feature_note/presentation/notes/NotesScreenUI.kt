@@ -82,11 +82,7 @@ fun ContentPartScaffold(
     val scaffoldState = SnackbarHostState()
     val scope = rememberCoroutineScope()
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-
-    ) {
+    Column(modifier = Modifier.fillMaxSize()) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
