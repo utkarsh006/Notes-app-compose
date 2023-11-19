@@ -1,5 +1,6 @@
 package com.example.notesappcompose.feature_note.presentation.notes
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import androidx.compose.animation.AnimatedVisibility
@@ -44,8 +45,35 @@ import com.example.notesappcompose.feature_note.presentation.notes.components.Or
 import com.example.notesappcompose.feature_note.presentation.utils.NavScreen
 import kotlinx.coroutines.launch
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun NotesScreen(
+    navController: NavController,
+    context: Context,
+) {
+    Scaffold(
+        floatingActionButton = { FloatingButtonScaffold(navController = navController) },
+        content = {
+            ContentPartScaffold(navController = navController, context = context)
+        }
+    )
+
+}
+
+@Composable
+fun FloatingButtonScaffold(navController: NavController) {
+    FloatingActionButton(
+        onClick = {
+            navController.navigate(NavScreen.AddEditNoteScreen.route)
+        },
+        containerColor = MaterialTheme.colorScheme.primary
+    ) {
+        Icon(imageVector = Icons.Default.Add, contentDescription = "Add Note")
+    }
+}
+
+@Composable
+fun ContentPartScaffold(
     navController: NavController,
     context: Context,
     viewModel: NotesViewModel = hiltViewModel()
@@ -54,110 +82,95 @@ fun NotesScreen(
     val scaffoldState = SnackbarHostState()
     val scope = rememberCoroutineScope()
 
-    Scaffold(
-        floatingActionButton = {
-            FloatingActionButton(
-                onClick = {
-                    navController.navigate(NavScreen.AddEditNoteScreen.route)
-                },
-                containerColor = MaterialTheme.colorScheme.primary
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = "Your Note",
+                style = MaterialTheme.typography.bodyMedium
+            )
+
+            IconButton(
+                onClick = { viewModel.onEvent(NotesEvent.ToggleOrderSection) }
             ) {
-                Icon(imageVector = Icons.Default.Add, contentDescription = "Add Note")
-            }
-        },
-        content = { padding ->
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-
-            ) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = "Your Note",
-                        style = MaterialTheme.typography.bodyMedium
-                    )
-
-                    IconButton(
-                        onClick = { viewModel.onEvent(NotesEvent.ToggleOrderSection) }
-                    ) {
-                        Icon(imageVector = Icons.Default.Sort, contentDescription = "Sort")
-                    }
-                }
-
-                AnimatedVisibility(
-                    visible = state.isOrderSectionVisible,
-                    enter = fadeIn() + slideInVertically(),
-                    exit = fadeOut() + slideOutVertically()
-                ) {
-                    OrderSection(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 16.dp),
-                        noteOrder = state.noteOrder,
-                        onOrderChange = {
-                            viewModel.onEvent(NotesEvent.Order(it))
-                        }
-                    )
-                }
-
-                Spacer(modifier = Modifier.height(16.dp))
-
-                LazyVerticalStaggeredGrid(
-                    columns = StaggeredGridCells.Fixed(2),
-                    modifier = Modifier.fillMaxSize()
-                ) {
-                    items(state.notes) { note ->
-                        NoteItemUI(
-                            note = note,
-                            modifier = Modifier
-                                .padding(8.dp)
-                                .fillMaxWidth()
-                                .clickable {
-                                    //clicking on individual note
-                                    navController.navigate(
-                                        NavScreen.AddEditNoteScreen.route
-                                                + "?noteId=${note.id}&noteColor=${note.color}"
-                                    )
-                                },
-                            onShareClicked = {
-                                val sendIntent: Intent = Intent().apply {
-                                    action = Intent.ACTION_SEND
-                                    putExtra(Intent.EXTRA_TEXT, note.content)
-                                    type = "text/plain"
-                                }
-                                val shareIntent = Intent.createChooser(sendIntent, null)
-                                context.startActivity(shareIntent)
-
-                            },
-                            onDeleteClicked = {
-                                viewModel.onEvent(NotesEvent.DeleteNote(note))
-                                //after deleting the note, show the snackbar
-                                scope.launch {
-                                    val result = scaffoldState.showSnackbar(
-                                        message = "Note Deleted!",
-                                        actionLabel = "Undo"
-                                    )
-
-                                    if (result == SnackbarResult.ActionPerformed) {
-                                        viewModel.onEvent(NotesEvent.RestoreNote)
-                                    }
-                                }
-                            }
-                        )
-
-                        //adding space b/w each note Item
-                        Spacer(modifier = Modifier.height(16.dp))
-
-                    }
-                }
+                Icon(imageVector = Icons.Default.Sort, contentDescription = "Sort")
             }
         }
-    )
 
+        AnimatedVisibility(
+            visible = state.isOrderSectionVisible,
+            enter = fadeIn() + slideInVertically(),
+            exit = fadeOut() + slideOutVertically()
+        ) {
+            OrderSection(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 16.dp),
+                noteOrder = state.noteOrder,
+                onOrderChange = {
+                    viewModel.onEvent(NotesEvent.Order(it))
+                }
+            )
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        LazyVerticalStaggeredGrid(
+            columns = StaggeredGridCells.Fixed(2),
+            modifier = Modifier.fillMaxSize()
+        ) {
+            items(state.notes) { note ->
+                NoteItemUI(
+                    note = note,
+                    modifier = Modifier
+                        .padding(8.dp)
+                        .fillMaxWidth()
+                        .clickable {
+                            //clicking on individual note
+                            navController.navigate(
+                                NavScreen.AddEditNoteScreen.route
+                                        + "?noteId=${note.id}&noteColor=${note.color}"
+                            )
+                        },
+                    onShareClicked = {
+                        val sendIntent: Intent = Intent().apply {
+                            action = Intent.ACTION_SEND
+                            putExtra(Intent.EXTRA_TEXT, note.content)
+                            type = "text/plain"
+                        }
+                        val shareIntent = Intent.createChooser(sendIntent, null)
+                        context.startActivity(shareIntent)
+
+                    },
+                    onDeleteClicked = {
+                        viewModel.onEvent(NotesEvent.DeleteNote(note))
+                        //after deleting the note, show the snackbar
+                        scope.launch {
+                            val result = scaffoldState.showSnackbar(
+                                message = "Note Deleted!",
+                                actionLabel = "Undo"
+                            )
+
+                            if (result == SnackbarResult.ActionPerformed) {
+                                viewModel.onEvent(NotesEvent.RestoreNote)
+                            }
+                        }
+                    }
+                )
+
+                //adding space b/w each note Item
+                Spacer(modifier = Modifier.height(16.dp))
+
+            }
+        }
+    }
 }
