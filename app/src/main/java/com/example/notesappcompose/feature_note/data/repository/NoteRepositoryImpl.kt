@@ -24,5 +24,3 @@ class NoteRepositoryImpl(
         dao.deleteNote(note)
     }
 }
-
-//press ctrl+i, then ctrl+a to implement all member functions

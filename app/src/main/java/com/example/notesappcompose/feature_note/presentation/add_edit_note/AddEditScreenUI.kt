@@ -37,7 +37,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.notesappcompose.feature_note.domain.model.Note
-import com.example.notesappcompose.feature_note.presentation.AddEditNoteViewModel
 import com.example.notesappcompose.feature_note.presentation.add_edit_note.components.HintUI
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch

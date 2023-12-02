@@ -39,10 +39,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.notesappcompose.feature_note.presentation.notes.components.NoteItemUI
-import com.example.notesappcompose.feature_note.presentation.notes.components.NotesEvent
-import com.example.notesappcompose.feature_note.presentation.notes.components.NotesViewModel
 import com.example.notesappcompose.feature_note.presentation.notes.components.OrderSection
-import com.example.notesappcompose.feature_note.presentation.utils.NavScreen
+import com.example.notesappcompose.feature_note.navigation.NavScreen
 import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")

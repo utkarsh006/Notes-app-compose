@@ -1,4 +1,4 @@
-package com.example.notesappcompose.feature_note.presentation.utils
+package com.example.notesappcompose.feature_note.navigation
 
 sealed class NavScreen(val route: String) {
     object NotesScreen : NavScreen("notes_screen")
