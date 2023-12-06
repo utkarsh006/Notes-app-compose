@@ -3,6 +3,7 @@ package com.example.notesappcompose.feature_note.presentation.notes
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -32,15 +33,16 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.example.notesappcompose.feature_note.navigation.NavScreen
 import com.example.notesappcompose.feature_note.presentation.notes.components.NoteItemUI
 import com.example.notesappcompose.feature_note.presentation.notes.components.OrderSection
-import com.example.notesappcompose.feature_note.navigation.NavScreen
 import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -52,7 +54,10 @@ fun NotesScreen(
     Scaffold(
         floatingActionButton = { FloatingButtonScaffold(navController = navController) },
         content = {
-            ContentPartScaffold(navController = navController, context = context)
+            ContentPartScaffold(
+                navController = navController,
+                context = context
+            )
         }
     )
 
@@ -77,7 +82,7 @@ fun ContentPartScaffold(
     viewModel: NotesViewModel = hiltViewModel()
 ) {
     val state = viewModel.state.value
-    val scaffoldState = SnackbarHostState()
+    val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
 
     Column(modifier = Modifier.fillMaxSize()) {
@@ -149,14 +154,21 @@ fun ContentPartScaffold(
                         viewModel.onEvent(NotesEvent.DeleteNote(note))
                         //after deleting the note, show the snackbar
                         scope.launch {
-                            val result = scaffoldState.showSnackbar(
+                            Log.d("message", "delete")
+                            val result = snackbarHostState.showSnackbar(
                                 message = "Note Deleted!",
                                 actionLabel = "Undo"
                             )
 
-                            if (result == SnackbarResult.ActionPerformed) {
-                                viewModel.onEvent(NotesEvent.RestoreNote)
+                            when (result) {
+                                SnackbarResult.ActionPerformed -> {
+                                    viewModel.onEvent(NotesEvent.RestoreNote)
+
+                                }
+
+                                else -> {}
                             }
+
                         }
                     }
                 )
@@ -167,4 +179,6 @@ fun ContentPartScaffold(
             }
         }
     }
+
+
 }

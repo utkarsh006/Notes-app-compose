@@ -23,7 +23,7 @@ class NotesViewModel @Inject constructor(
     //State will have 4 things : current note order, current list of notes, Restore notes and
     // order section visibility
 
-    private val _state = mutableStateOf<NotesState>(NotesState())
+    private val _state = mutableStateOf(NotesState())
     val state: State<NotesState> = _state
 
     private var recentDeletedNote: Note? = null
