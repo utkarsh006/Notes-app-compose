@@ -29,6 +29,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
@@ -51,12 +52,16 @@ fun NotesScreen(
     navController: NavController,
     context: Context,
 ) {
+    val snackbarHostState = remember { SnackbarHostState() }
+
     Scaffold(
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
         floatingActionButton = { FloatingButtonScaffold(navController = navController) },
         content = {
             ContentPartScaffold(
                 navController = navController,
-                context = context
+                context = context,
+                snackbarHostState = snackbarHostState
             )
         }
     )
@@ -79,10 +84,10 @@ fun FloatingButtonScaffold(navController: NavController) {
 fun ContentPartScaffold(
     navController: NavController,
     context: Context,
+    snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
     viewModel: NotesViewModel = hiltViewModel()
 ) {
     val state = viewModel.state.value
-    val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
 
     Column(modifier = Modifier.fillMaxSize()) {
@@ -154,6 +159,7 @@ fun ContentPartScaffold(
                         viewModel.onEvent(NotesEvent.DeleteNote(note))
                         //after deleting the note, show the snackbar
                         scope.launch {
+                            snackbarHostState.currentSnackbarData?.dismiss()
                             Log.d("message", "delete")
                             val result = snackbarHostState.showSnackbar(
                                 message = "Note Deleted!",
