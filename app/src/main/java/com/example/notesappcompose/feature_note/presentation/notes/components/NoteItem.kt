@@ -26,6 +26,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.notesappcompose.feature_note.domain.model.Note
+import com.example.notesappcompose.ui.theme.BlackColor
+import com.example.notesappcompose.ui.theme.DarkGray
 
 @Composable
 fun NoteItemUI(
@@ -51,7 +53,7 @@ fun NoteItemUI(
                         text = note.title,
                         style = MaterialTheme.typography.bodyLarge,
                         fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.secondary,
+                        color = BlackColor,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )
@@ -61,7 +63,7 @@ fun NoteItemUI(
                     Text(
                         text = note.content,
                         style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.background,
+                        color = DarkGray,
                         maxLines = 10,
                         overflow = TextOverflow.Ellipsis
                     )
@@ -79,7 +81,7 @@ fun NoteItemUI(
                             Icon(
                                 imageVector = Icons.Default.Share,
                                 contentDescription = "Share Note",
-                                tint = MaterialTheme.colorScheme.onSurface
+                                tint = DarkGray
                             )
                         }
 
@@ -89,7 +91,7 @@ fun NoteItemUI(
                             Icon(
                                 imageVector = Icons.Default.Delete,
                                 contentDescription = "Delete Note",
-                                tint = MaterialTheme.colorScheme.onSurface
+                                tint = DarkGray
                             )
                         }
                     }

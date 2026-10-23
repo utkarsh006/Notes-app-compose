@@ -38,6 +38,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.notesappcompose.feature_note.domain.model.Note
 import com.example.notesappcompose.feature_note.presentation.add_edit_note.components.HintUI
+import com.example.notesappcompose.ui.theme.BlackColor
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -155,7 +156,7 @@ fun AddEditScreenUI(
                     },
                     isHintVisible = titleState.isHintVisible,
                     singleLine = true,
-                    textStyle = MaterialTheme.typography.bodyMedium
+                    textStyle = MaterialTheme.typography.bodyMedium.copy(color = BlackColor)
                 )
 
                 Spacer(Modifier.height(16.dp))
@@ -171,7 +172,7 @@ fun AddEditScreenUI(
                         viewModel.onEvent(AddEditNoteEvent.ChangeContentFocus(it))
                     },
                     isHintVisible = contentState.isHintVisible,
-                    textStyle = MaterialTheme.typography.bodyMedium,
+                    textStyle = MaterialTheme.typography.bodyMedium.copy(color = BlackColor),
                     modifier = Modifier.fillMaxHeight()
                 )
             }
