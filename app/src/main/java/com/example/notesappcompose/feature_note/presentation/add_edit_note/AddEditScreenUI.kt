@@ -38,6 +38,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.notesappcompose.feature_note.domain.model.Note
 import com.example.notesappcompose.feature_note.presentation.add_edit_note.components.HintUI
+import com.example.notesappcompose.ui.theme.BlackColor
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -56,6 +57,9 @@ fun AddEditScreenUI(
             )
         )
     }
+
+    // The screen background is always the (pastel) note colour, so the text stays dark in both themes
+    val noteTextStyle = MaterialTheme.typography.bodyMedium.copy(color = BlackColor)
 
     // To animate the above color, we need a scope
     val scope = rememberCoroutineScope()
@@ -155,7 +159,7 @@ fun AddEditScreenUI(
                     },
                     isHintVisible = titleState.isHintVisible,
                     singleLine = true,
-                    textStyle = MaterialTheme.typography.bodyMedium
+                    textStyle = noteTextStyle
                 )
 
                 Spacer(Modifier.height(16.dp))
@@ -171,7 +175,7 @@ fun AddEditScreenUI(
                         viewModel.onEvent(AddEditNoteEvent.ChangeContentFocus(it))
                     },
                     isHintVisible = contentState.isHintVisible,
-                    textStyle = MaterialTheme.typography.bodyMedium,
+                    textStyle = noteTextStyle,
                     modifier = Modifier.fillMaxHeight()
                 )
             }

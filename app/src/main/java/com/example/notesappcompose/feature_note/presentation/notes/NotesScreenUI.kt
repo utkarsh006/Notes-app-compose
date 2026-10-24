@@ -23,6 +23,8 @@ import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.DarkMode
+import androidx.compose.material.icons.filled.LightMode
 import androidx.compose.material.icons.filled.Sort
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -51,6 +53,8 @@ import kotlinx.coroutines.launch
 fun NotesScreen(
     navController: NavController,
     context: Context,
+    isDarkTheme: Boolean,
+    onToggleTheme: () -> Unit,
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
 
@@ -61,6 +65,8 @@ fun NotesScreen(
             ContentPartScaffold(
                 navController = navController,
                 context = context,
+                isDarkTheme = isDarkTheme,
+                onToggleTheme = onToggleTheme,
                 snackbarHostState = snackbarHostState
             )
         }
@@ -84,6 +90,8 @@ fun FloatingButtonScaffold(navController: NavController) {
 fun ContentPartScaffold(
     navController: NavController,
     context: Context,
+    isDarkTheme: Boolean,
+    onToggleTheme: () -> Unit,
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
     viewModel: NotesViewModel = hiltViewModel()
 ) {
@@ -103,10 +111,20 @@ fun ContentPartScaffold(
                 style = MaterialTheme.typography.bodyMedium
             )
 
-            IconButton(
-                onClick = { viewModel.onEvent(NotesEvent.ToggleOrderSection) }
-            ) {
-                Icon(imageVector = Icons.Default.Sort, contentDescription = "Sort")
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                // Shows the icon of the theme the user will switch to
+                IconButton(onClick = onToggleTheme) {
+                    Icon(
+                        imageVector = if (isDarkTheme) Icons.Default.LightMode else Icons.Default.DarkMode,
+                        contentDescription = if (isDarkTheme) "Switch to light theme" else "Switch to dark theme"
+                    )
+                }
+
+                IconButton(
+                    onClick = { viewModel.onEvent(NotesEvent.ToggleOrderSection) }
+                ) {
+                    Icon(imageVector = Icons.Default.Sort, contentDescription = "Sort")
+                }
             }
         }
 

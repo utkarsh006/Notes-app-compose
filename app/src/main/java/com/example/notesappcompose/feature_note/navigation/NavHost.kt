@@ -13,7 +13,10 @@ import com.example.notesappcompose.feature_note.presentation.add_edit_note.AddEd
 import com.example.notesappcompose.feature_note.presentation.notes.NotesScreen
 
 @Composable
-fun AppNavHost() {
+fun AppNavHost(
+    isDarkTheme: Boolean,
+    onToggleTheme: () -> Unit
+) {
     Surface(color = MaterialTheme.colorScheme.background) {
         val navController = rememberNavController()
         NavHost(
@@ -21,7 +24,12 @@ fun AppNavHost() {
             startDestination = NavScreen.NotesScreen.route
         ) {
             composable(route = NavScreen.NotesScreen.route) {
-                NotesScreen(navController = navController, LocalContext.current)
+                NotesScreen(
+                    navController = navController,
+                    context = LocalContext.current,
+                    isDarkTheme = isDarkTheme,
+                    onToggleTheme = onToggleTheme
+                )
 
             }
 
